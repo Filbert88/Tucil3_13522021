@@ -1,14 +1,10 @@
-package src;
-
 import java.util.*;
-import src.utils.*;
-import src.Algorithm.*;
 
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         long startTime = System.currentTimeMillis();
-        Set<String> words = WordLoader.loadWords("src/dictionary/words_alpha.txt");
+        Set<String> words = WordLoader.loadWords("words.txt");
         Map<String, List<String>> graph = GraphBuilder.buildGraph(words);
         long loadTime = System.currentTimeMillis() - startTime;
 
@@ -35,7 +31,7 @@ public class Main {
                 ladder = GBFS.findLadder(start, end, graph);
                 break;
             case "A*":
-                // Implementation would go here
+                ladder = Astar.findLadder(start, end, graph);
                 break;
             default:
                 System.out.println("Invalid algorithm choice");
@@ -48,7 +44,9 @@ public class Main {
         } else {
             ladder = ladder.stream().map(String::toUpperCase).toList();
             System.out.println("Path found: " + String.join(" -> ", ladder));
+            System.out.println(ladder.size());
         }
+
         System.out.println("Load time: " + loadTime + " milliseconds");
         System.out.println("Execution time: " + algExecutionTime + " milliseconds");
         scanner.close();
