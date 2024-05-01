@@ -1,7 +1,7 @@
 import java.util.*;
 
 public class UCS {
-    public static List<String> findLadder(String start, String end, Map<String, List<String>> graph) {
+    public static SearchResult findLadder(String start, String end, Map<String, List<String>> graph) {
         PriorityQueue<Node> priorityQueue = new PriorityQueue<>(Comparator.comparingInt(node -> node.cost));
         Map<String, Integer> visited = new HashMap<>();
         int visitedNodes = 0;
@@ -14,8 +14,7 @@ public class UCS {
 
             if (current.word.equals(end)) {
                 List<String> path = getPath(current);
-                System.out.println("Visited nodes: " + visitedNodes);
-                return path;
+                return new SearchResult(path, visitedNodes);
             }
 
             if (!visited.containsKey(current.word) || visited.get(current.word) > current.cost) {
@@ -28,7 +27,7 @@ public class UCS {
                 }
             } 
         }
-        return Collections.emptyList();
+        return new SearchResult(Collections.emptyList(), visitedNodes);
     }
 
     private static List<String> getPath(Node endNode) {

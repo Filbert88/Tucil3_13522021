@@ -1,7 +1,7 @@
 import java.util.*;
 
 public class GBFS {
-    public static List<String> findLadder(String start, String end, Map<String, List<String>> graph) {
+    public static SearchResult findLadder(String start, String end, Map<String, List<String>> graph) {
         PriorityQueue<Node> prioQueue = new PriorityQueue<>(Comparator.comparingInt(node -> node.heuristic));
         Map<String, Boolean> visited = new HashMap<>();
         int visitedNodes = 0;
@@ -13,8 +13,8 @@ public class GBFS {
             visitedNodes++;
 
             if (current.word.equals(end)) {
-                System.out.println("Visited nodes: " + visitedNodes);
-                return getPath(current);
+                List<String> path = getPath(current);
+                return new SearchResult(path, visitedNodes);
             }
 
             if (!visited.containsKey(current.word)) {
@@ -27,7 +27,7 @@ public class GBFS {
             }
         }
 
-        return Collections.emptyList();
+        return new SearchResult(Collections.emptyList(), visitedNodes);
     }
 
     private static List<String> getPath(Node endNode) {

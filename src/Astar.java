@@ -1,7 +1,7 @@
 import java.util.*;
 
 public class Astar {
-    public static List<String> findLadder(String start, String end, Map<String, List<String>> graph) {
+    public static SearchResult findLadder(String start, String end, Map<String, List<String>> graph) {
         PriorityQueue<Node> priorityQueue = new PriorityQueue<>(Comparator.comparingInt(node -> node.f));
         Map<String, Integer> costSoFar = new HashMap<>();
         int visitedNodes = 0;
@@ -12,8 +12,8 @@ public class Astar {
             visitedNodes++;
 
             if (current.word.equals(end)) {
-                System.err.println("Visited nodes: " + visitedNodes);
-                return getPath(current);
+                List<String> path = getPath(current);
+                return new SearchResult(path, visitedNodes);
             }
 
             for (String neighbor : graph.get(current.word)) {
@@ -25,7 +25,7 @@ public class Astar {
                 }
             }
         }
-        return Collections.emptyList();
+        return new SearchResult(Collections.emptyList(), visitedNodes);
     }
 
     private static List<String> getPath(Node endNode) {
