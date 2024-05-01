@@ -19,7 +19,7 @@ public class GUI extends JFrame {
     private Map<String, List<String>> graph;
 
     public GUI() {
-        words = WordLoader.loadWords("words_alpha.txt");
+        words = WordLoader.loadWords("words.txt");
         graph = GraphBuilder.buildGraph(words);
         createGUI();
         setupCloseKeyBinding();
