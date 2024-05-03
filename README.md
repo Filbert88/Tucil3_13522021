@@ -1,0 +1,62 @@
+<h1 align="center">Tugas Kecil 3 IF2211 Strategi Algoritma</h1>
+<h2 align="center">Semester II Tahun 2023/2024</h2>
+<h3 align="center">Penyelesaian Permainan Word Ladder Menggunakan Algoritma UCS, Greedy Best First Search, dan A*</h3>
+
+## Table of Contents
+* [Overview](#Overview)
+* [Technologies Used](#technologies-used)
+* [Features](#features)
+* [Setup](#setup)
+* [Creator](#creator)
+* [Documentation](#documentation)
+* [Links](#links)
+
+## Overview
+The Word Ladder game involves transforming a start word into a target word one letter at a time, with each intermediate step forming a valid word. This project implements three algorithms to solve the Word Ladder problem: Uniform Cost Search (UCS), Greedy Best First Search (GBFS), and A* (A-Star). The purpose is to explore these algorithms' effectiveness in finding the shortest transformation path between two words.
+
+## Technologies Used
+- **Java**: All backend logic and algorithms are implemented using Java, ensuring a robust and platform-independent solution.
+- **Prerequisites**: Java 8 or newer must be installed on your machine to compile and run the code.
+
+## Features
+- **Algorithms**: Solves the Word Ladder game using three different algorithms:
+  - Uniform Cost Search (UCS)
+  - Greedy Best First Search (GBFS)
+  - A*
+- Each algorithm provides a unique approach to solving the problem, demonstrating the strengths and weaknesses of each method.
+
+## Setup
+To get started with the Word Ladder solver, you can clone the repository and run the application either via Command Line Interface (CLI) or Graphical User Interface (GUI).
+
+1. Clone the repository
+```bash
+https://github.com/Filbert88/Tucil3_13522021.git
+``` 
+2. To run the GUI
+```
+./run
+```
+3. To run via CLI
+```
+./cli
+```
+
+## How to Use the Program
+1. **Start and End Word**: Input the start word and the end word.
+2. **Choose the Algorithm**: Select one of the three algorithms (UCS, GBFS, or A*) for solving the Word Ladder.
+3. **Execution**: Upon running, the program will display the path from the start word to the end word, if one exists, along with the execution time and the number of nodes visited during the search.
+
+## Creator
+| NIM      | Nama    | Kelas |
+| -------- | ------- | ----- |
+| 13522021 | Filbert | K-01  |
+
+## Documentation
+![GUI](./bin/GUI.png)
+![CLI](./bin/CLI.png)
+
+## Links
+
+- Repository : https://github.com/Filbert88/Tucil3_13522021.git
+- Issue tracker :
+  - If you encounter any issues with the program, come across any disruptive bugs, or have any suggestions for improvement, please don't hesitate to reach out by sending an email to filbertfilbert21@gmail.com. Your feedback is greatly appreciated.
