@@ -7,6 +7,8 @@
 * [Technologies Used](#technologies-used)
 * [Features](#features)
 * [Setup](#setup)
+* [How to Use the Program](#how-to-use-program)
+* [Limitations](#limitations)
 * [Creator](#creator)
 * [Documentation](#documentation)
 * [Links](#links)
@@ -20,9 +22,18 @@ The Word Ladder game involves transforming a start word into a target word one l
 
 ## Features
 - **Algorithms**: Solves the Word Ladder game using three different algorithms:
-  - Uniform Cost Search (UCS)
-  - Greedy Best First Search (GBFS)
-  - A*
+  - **Uniform Cost Search (UCS)**:
+    - Finds the lowest cost path to the goal by exploring nodes based on their costs.
+    - Guarantees to find the optimal solution but can be computationally expensive.
+    
+  - **Greedy Best First Search (GBFS)**:
+    - Selects nodes based on heuristic estimates of their proximity to the goal.
+    - Efficient in memory usage but may not always find the optimal solution.
+    
+  - **A* (A Star)**:
+    - Combines UCS and GBFS by considering both actual cost and heuristic estimates.
+    - Efficient and guarantees to find the optimal solution with a good heuristic.
+
 - Each algorithm provides a unique approach to solving the problem, demonstrating the strengths and weaknesses of each method.
 
 ## Setup
@@ -46,13 +57,21 @@ https://github.com/Filbert88/Tucil3_13522021.git
 2. **Choose the Algorithm**: Select one of the three algorithms (UCS, GBFS, or A*) for solving the Word Ladder.
 3. **Execution**: Upon running, the program will display the path from the start word to the end word, if one exists, along with the execution time and the number of nodes visited during the search.
 
+## Limitations
+- **Language Constraint**: This program currently supports only English valid words. Words from other languages or non-dictionary words are not **accepted**.
+  
+- **Word Length Requirement**: Both the start and end words must have the same length. This restriction ensures that the word ladder puzzle remains solvable within the constraints of the implemented algorithms.
+
 ## Creator
 | NIM      | Nama    | Kelas |
 | -------- | ------- | ----- |
 | 13522021 | Filbert | K-01  |
 
 ## Documentation
+### Graphical User Interface (GUI)
 ![GUI](./bin/GUI.png)
+
+### Command Line Interface (CLI)
 ![CLI](./bin/CLI.png)
 
 ## Links
