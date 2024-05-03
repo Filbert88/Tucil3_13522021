@@ -1,13 +1,14 @@
 import java.util.*;
 
 public class GBFS {
-    public static SearchResult findLadder(String start, String end, Map<String, List<String>> graph) {
-        PriorityQueue<Node> prioQueue = new PriorityQueue<>(Comparator.comparingInt(node -> node.heuristic));
+    public static SearchResult findLadder(String start, String end, NeighborGenerator generator) {
+        PriorityQueue<Node> prioQueue = new PriorityQueue<>();
         Map<String, Boolean> visited = new HashMap<>();
         int visitedNodes = 0;
 
-        prioQueue.add(new Node(start, null, heuristic(start, end)));
-        
+        prioQueue.add(new Node(start, null, calculateHammingDistance(start, end)));
+        visited.put(start, true);
+
         while (!prioQueue.isEmpty()) {
             Node current = prioQueue.poll();
             visitedNodes++;
@@ -16,17 +17,15 @@ public class GBFS {
                 List<String> path = getPath(current);
                 return new SearchResult(path, visitedNodes);
             }
-
-            if (!visited.containsKey(current.word)) {
-                visited.put(current.word, true);
-                for (String neighbor : graph.get(current.word)) {
-                    if (!visited.containsKey(neighbor)) {
-                        prioQueue.add(new Node(neighbor, current, heuristic(neighbor, end)));
-                    }
+        
+            List<String> neighbors = generator.getNeighbors(current.word);
+            for (String neighbor : neighbors) {
+                if (!visited.containsKey(neighbor)) {
+                    visited.put(neighbor, true);
+                    prioQueue.add(new Node(neighbor, current, calculateHammingDistance(neighbor, end)));
                 }
             }
         }
-
         return new SearchResult(Collections.emptyList(), visitedNodes);
     }
 
@@ -39,25 +38,30 @@ public class GBFS {
         return path;
     }
 
-    private static int heuristic(String word, String end) {
-        int matches = 0;
+    private static int calculateHammingDistance(String word, String end) {
+        int difference = 0;
         for (int i = 0; i < word.length(); i++) {
-            if (word.charAt(i) == end.charAt(i)) {
-                matches++;
+            if (word.charAt(i) != end.charAt(i)) {
+                difference++;
             }
         }
-        return -matches; 
+        return difference; 
     }
 
-    static class Node {
+    static class Node implements Comparable<Node> {
         String word;
         Node parent;
         int heuristic;
-
+    
         Node(String word, Node parent, int heuristic) {
             this.word = word;
             this.parent = parent;
             this.heuristic = heuristic;
+        }
+    
+        @Override
+        public int compareTo(Node other) {
+            return Integer.compare(this.heuristic, other.heuristic);
         }
     }
 }
