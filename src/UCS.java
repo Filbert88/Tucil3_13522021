@@ -2,6 +2,10 @@ import java.util.*;
 
 public class UCS {
     public static SearchResult findLadder(String start, String end, NeighborGenerator generator) {
+        if(start.equals(end)){
+            return new SearchResult(Collections.singletonList(start), 0);
+        }
+
         PriorityQueue<Node> priorityQueue = new PriorityQueue<>();
         Map<String, Integer> visited = new HashMap<>();
         int visitedNodes = 0;

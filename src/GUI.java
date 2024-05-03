@@ -107,47 +107,41 @@ public class GUI extends JFrame {
             JOptionPane.showMessageDialog(this, "Word lengths are not equal.");
             return;
         }
-
-        SwingWorker<SearchResult, Void> worker = new SwingWorker<>() {
-            long startTime = System.nanoTime();
     
-            @Override
-            protected SearchResult doInBackground() throws Exception {
-                switch (algorithm) {
-                    case "UCS":
-                        return UCS.findLadder(start, end, neighbor);
-                    case "GBFS":
-                        return GBFS.findLadder(start, end, neighbor);
-                    case "A*":
-                        return Astar.findLadder(start, end, neighbor);
-                    default:
-                        JOptionPane.showMessageDialog(GUI.this, "Invalid algorithm choice");
-                        return null;
-                }
+        long startTime = System.nanoTime();
+        SearchResult result = null;
+        try {
+            switch (algorithm) {
+                case "UCS":
+                    result = UCS.findLadder(start, end, neighbor);
+                    break;
+                case "GBFS":
+                    result = GBFS.findLadder(start, end, neighbor);
+                    break;
+                case "A*":
+                    result = Astar.findLadder(start, end, neighbor);
+                    break;
+                default:
+                    JOptionPane.showMessageDialog(this, "Invalid algorithm choice");
+                    return;
             }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Error during search: " + ex.getMessage());
+            ex.printStackTrace();
+            return;
+        }
     
-            @Override
-            protected void done() {
-                try {
-                    SearchResult result = get();
-                    long endTime = System.nanoTime();
-                    long executionTime = (endTime - startTime) / 1_000_000;
-                    timeLabel.setText("Execution Time: " + executionTime + " ms");
-                    visitedLabel.setText("Visited Nodes: " + (result != null ? result.visitedNodes : 0));
+        long endTime = System.nanoTime();
+        long executionTime = (endTime - startTime) / 1_000_000;
+        timeLabel.setText("Execution Time: " + executionTime + " ms");
+        visitedLabel.setText("Visited Nodes: " + (result != null ? result.visitedNodes : 0));
     
-                    if (result != null && result.path != null) {
-                        displayLadder(result.path);
-                    } else {
-                        JOptionPane.showMessageDialog(GUI.this, "No path found.");
-                    }
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            }
-        };
-    
-        worker.execute();
-    }
+        if (result != null && result.path != null) {
+            displayLadder(result.path);
+        } else {
+            JOptionPane.showMessageDialog(this, "No path found.");
+        }
+    }    
         
     private void displayLadder(List<String> ladder) {
         resultPanel.removeAll();

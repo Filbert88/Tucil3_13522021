@@ -2,10 +2,15 @@ import java.util.*;
 
 public class Astar {
     public static SearchResult findLadder(String start, String end,NeighborGenerator generator) {
+        if(start.equals(end)){
+            return new SearchResult(Collections.singletonList(start), 0);
+        }
+
         PriorityQueue<Node> priorityQueue = new PriorityQueue<>();
         Map<String, Integer> costSoFar = new HashMap<>();
         int visitedNodes = 0;
         priorityQueue.add(new Node(start, null, 0, calculateHammingDistance(start, end)));
+        costSoFar.put(start,0);
 
         while (!priorityQueue.isEmpty()) {
             Node current = priorityQueue.poll();

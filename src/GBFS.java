@@ -2,6 +2,10 @@ import java.util.*;
 
 public class GBFS {
     public static SearchResult findLadder(String start, String end, NeighborGenerator generator) {
+        if(start.equals(end)){
+            return new SearchResult(Collections.singletonList(start), 0);
+        }
+
         PriorityQueue<Node> prioQueue = new PriorityQueue<>();
         Map<String, Boolean> visited = new HashMap<>();
         int visitedNodes = 0;
