@@ -3,7 +3,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 public class GUI extends JFrame {
@@ -16,11 +15,12 @@ public class GUI extends JFrame {
     private JLabel timeLabel;
     private JLabel visitedLabel;
     private Set<String> words;
-    private Map<String, List<String>> graph;
+    NeighborGenerator neighbor;
 
     public GUI() {
-        words = WordLoader.loadWords("words.txt");
-        graph = GraphBuilder.buildGraph(words);
+        words = WordLoader.loadWords("bin/words.txt");
+        neighbor = new NeighborGenerator(words);
+        // graph = GraphBuilder.buildGraph(words);
         createGUI();
         setupCloseKeyBinding();
     }
@@ -56,14 +56,14 @@ public class GUI extends JFrame {
 
         JPanel statusPanel = new JPanel();
         statusPanel.setLayout(new GridLayout(1, 3, 5, 5));
-        algoLabel = new JLabel("Selected Algorithm: ", JLabel.CENTER);
-        timeLabel = new JLabel("Execution Time: ", JLabel.CENTER);
-        visitedLabel = new JLabel("Visited Nodes: ", JLabel.CENTER);
+        algoLabel = new JLabel("Selected Algorithm: -", JLabel.CENTER);
+        timeLabel = new JLabel("Execution Time: -", JLabel.CENTER);
+        visitedLabel = new JLabel("Visited Nodes: -", JLabel.CENTER);
         statusPanel.add(algoLabel);
         statusPanel.add(timeLabel);
         statusPanel.add(visitedLabel);
 
-        contentPanel.add(topPanel);
+        contentPanel.add(topPanel); 
         contentPanel.add(buttonPanel);
 
         resultPanel = new JPanel();
@@ -78,7 +78,6 @@ public class GUI extends JFrame {
     }   
 
     private void setupCloseKeyBinding() {
-        // Bind ESC key to close operation
         String closeKey = "CLOSE";
         InputMap inputMap = getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), closeKey);
@@ -86,13 +85,12 @@ public class GUI extends JFrame {
         actionMap.put(closeKey, new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dispose(); // Close the frame
+                dispose(); 
             }
         });
     }
 
     private void executeSearch() {
-        // Clear the result panel before displaying the new result
         resultPanel.removeAll();
         String start = startWordField.getText().toLowerCase();
         String end = endWordField.getText().toLowerCase();
@@ -101,22 +99,27 @@ public class GUI extends JFrame {
         algoLabel.setText("Selected Algorithm: " + algorithm);
     
         if (!words.contains(start) || !words.contains(end) || start.length() != end.length()) {
-            JOptionPane.showMessageDialog(this, "Invalid input words or word lengths are not equal.");
+            JOptionPane.showMessageDialog(this, "Invalid input english words.");
             return;
         }
-    
+        
+        if (start.length() != end.length()) {
+            JOptionPane.showMessageDialog(this, "Word lengths are not equal.");
+            return;
+        }
+
         SwingWorker<SearchResult, Void> worker = new SwingWorker<>() {
-            long startTime = System.currentTimeMillis();
+            long startTime = System.nanoTime();
     
             @Override
             protected SearchResult doInBackground() throws Exception {
                 switch (algorithm) {
                     case "UCS":
-                        return UCS.findLadder(start, end, graph);
+                        return UCS.findLadder(start, end, neighbor);
                     case "GBFS":
-                        return GBFS.findLadder(start, end, graph);
+                        return GBFS.findLadder(start, end, neighbor);
                     case "A*":
-                        return Astar.findLadder(start, end, graph);
+                        return Astar.findLadder(start, end, neighbor);
                     default:
                         JOptionPane.showMessageDialog(GUI.this, "Invalid algorithm choice");
                         return null;
@@ -127,8 +130,8 @@ public class GUI extends JFrame {
             protected void done() {
                 try {
                     SearchResult result = get();
-                    long endTime = System.currentTimeMillis();
-                    long executionTime = endTime - startTime;
+                    long endTime = System.nanoTime();
+                    long executionTime = (endTime - startTime) / 1_000_000;
                     timeLabel.setText("Execution Time: " + executionTime + " ms");
                     visitedLabel.setText("Visited Nodes: " + (result != null ? result.visitedNodes : 0));
     
@@ -148,37 +151,43 @@ public class GUI extends JFrame {
         
     private void displayLadder(List<String> ladder) {
         resultPanel.removeAll();
-        if(ladder == null  || ladder.isEmpty()){
-            resultPanel.add(new JLabel("No path found."));
-        }  else{
-            for (int i = 0; i < ladder.size(); i++) { 
+        if (ladder == null || ladder.isEmpty()) {
+            resultPanel.setLayout(new BorderLayout()); 
+            JLabel noPathLabel = new JLabel("No path found.");
+            noPathLabel.setHorizontalAlignment(SwingConstants.CENTER); 
+            resultPanel.add(noPathLabel, BorderLayout.CENTER);
+        } else {
+            resultPanel.setLayout(new BoxLayout(resultPanel, BoxLayout.Y_AXIS));
+            String reference = ladder.get(0); 
+            char[] lastState = reference.toCharArray(); 
+    
+            for (int i = 0; i < ladder.size(); i++) {
                 JPanel wordPanel = new JPanel();
                 wordPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
                 String current = ladder.get(i);
-                String next = i < ladder.size() - 1 ? ladder.get(i + 1) : null;
     
                 JLabel numberLabel = new JLabel((i + 1) + ". ");
                 wordPanel.add(numberLabel);
     
                 for (int j = 0; j < current.length(); j++) {
                     JLabel label = new JLabel(String.valueOf(current.charAt(j)));
-                    if (next != null && j < next.length() && current.charAt(j) != next.charAt(j)) {
-                        label.setForeground(Color.BLUE); 
+                    if (current.charAt(j) != lastState[j]) {
+                        label.setForeground(Color.BLUE);  
+                        lastState[j] = current.charAt(j); 
                     }
                     wordPanel.add(label);
                 }
     
                 resultPanel.add(wordPanel);
-                if (i < ladder.size() - 1) { 
+                if (i < ladder.size() - 1) {
                     resultPanel.add(new JSeparator());
                 }
             }
-            
         }
         resultPanel.revalidate();
         resultPanel.repaint();
-    }       
-
+    }
+            
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             GUI gui = new GUI();

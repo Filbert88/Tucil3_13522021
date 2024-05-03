@@ -1,8 +1,8 @@
 import java.util.*;
 
 public class UCS {
-    public static SearchResult findLadder(String start, String end, Map<String, List<String>> graph) {
-        PriorityQueue<Node> priorityQueue = new PriorityQueue<>(Comparator.comparingInt(node -> node.cost));
+    public static SearchResult findLadder(String start, String end, NeighborGenerator generator) {
+        PriorityQueue<Node> priorityQueue = new PriorityQueue<>();
         Map<String, Integer> visited = new HashMap<>();
         int visitedNodes = 0;
 
@@ -10,17 +10,18 @@ public class UCS {
 
         while (!priorityQueue.isEmpty()) {
             Node current = priorityQueue.poll();
-            visitedNodes++;
-
+            
             if (current.word.equals(end)) {
                 List<String> path = getPath(current);
                 return new SearchResult(path, visitedNodes);
             }
-
+            
             if (!visited.containsKey(current.word) || visited.get(current.word) > current.cost) {
+                visitedNodes++;
                 visited.put(current.word, current.cost);
+                List<String> neighbors = generator.getNeighbors(current.word);
 
-                for (String neighbor : graph.get(current.word)) {
+                for (String neighbor : neighbors) {
                     if(!visited.containsKey(neighbor) || visited.get(neighbor) > current.cost ){
                         priorityQueue.add(new Node(neighbor, current, current.cost + 1));
                     }
@@ -39,7 +40,7 @@ public class UCS {
         return path;
     }
 
-    static class Node {
+    static class Node implements Comparable<Node> {
         String word;
         Node parent;
         int cost;
@@ -48,6 +49,11 @@ public class UCS {
             this.word = word;
             this.parent = parent;
             this.cost = cost;
+        }
+
+        @Override
+        public int compareTo(Node other) {
+            return Integer.compare(this.cost, other.cost);
         }
     }
 }
