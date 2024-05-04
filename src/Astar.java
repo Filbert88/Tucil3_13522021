@@ -16,6 +16,10 @@ public class Astar {
             Node current = priorityQueue.poll();
             visitedNodes++;
 
+            if (current.g > costSoFar.get(current.word)) {
+                continue; 
+            }
+
             if (current.word.equals(end)) {
                 List<String> path = getPath(current);
                 return new SearchResult(path, visitedNodes);
@@ -23,7 +27,7 @@ public class Astar {
 
             List<String> neighbors = generator.getNeighbors(current.word);
             for (String neighbor : neighbors) {
-                int newCost = costSoFar.getOrDefault(current.word, 0) + 1;
+                int newCost = costSoFar.get(current.word) + 1;
                 if (!costSoFar.containsKey(neighbor) || newCost < costSoFar.get(neighbor)) {
                     costSoFar.put(neighbor, newCost);
                     int priority = newCost + calculateHammingDistance(neighbor, end);

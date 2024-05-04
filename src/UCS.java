@@ -11,34 +11,38 @@ public class UCS {
         int visitedNodes = 0;
 
         priorityQueue.add(new Node(start, null, 0));
+        visited.put(start, 0); 
 
         while (!priorityQueue.isEmpty()) {
             Node current = priorityQueue.poll();
-            
-            if (current.word.equals(end)) {
-                List<String> path = getPath(current);
-                return new SearchResult(path, visitedNodes);
-            }
-            
-            if (!visited.containsKey(current.word) || visited.get(current.word) > current.cost) {
-                visitedNodes++;
-                visited.put(current.word, current.cost);
-                List<String> neighbors = generator.getNeighbors(current.word);
 
+            if (current.cost <= visited.get(current.word)) {
+                visitedNodes++;
+                
+                if (current.word.equals(end)) {
+                    List<String> path = getPath(current);
+                    return new SearchResult(path, visitedNodes);
+                }
+
+                List<String> neighbors = generator.getNeighbors(current.word);
                 for (String neighbor : neighbors) {
-                    if(!visited.containsKey(neighbor) || visited.get(neighbor) > current.cost ){
-                        priorityQueue.add(new Node(neighbor, current, current.cost + 1));
+                    int newCost = current.cost + 1;
+                    if (!visited.containsKey(neighbor) || newCost < visited.get(neighbor)) {
+                        visited.put(neighbor, newCost);
+                        priorityQueue.add(new Node(neighbor, current, newCost));
                     }
                 }
-            } 
+            }
         }
         return new SearchResult(Collections.emptyList(), visitedNodes);
     }
 
     private static List<String> getPath(Node endNode) {
         List<String> path = new ArrayList<>();
-        for (Node node = endNode; node != null; node = node.parent) {
-            path.add(node.word);
+        Node current = endNode;
+        while (current != null) {
+            path.add(current.word);
+            current = current.parent;
         }
         Collections.reverse(path);
         return path;
@@ -61,3 +65,4 @@ public class UCS {
         }
     }
 }
+
