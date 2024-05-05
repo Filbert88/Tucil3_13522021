@@ -19,8 +19,8 @@ The Word Ladder game involves transforming a start word into a target word one l
 ## Technologies Used
 - **Java**: All backend logic and algorithms are implemented using Java, ensuring a robust and platform-independent solution.
 - **Prerequisites**: 
-  - **Windows**: Java 8 or newer must be installed on your machine to compile and run the code.
-  - **Linux**: The latest version of Java must be installed on your machine to compile and run the code which already have a class file version 64.0.
+  - **Windows**: Java 19 or newer must be installed on your machine to compile and run the code.
+  - **Linux**: The latest version of Java must be installed on your machine to compile and run the code. Ensure that the java version installed is `non-headless` or you can download it using `sudo apt install openjdk-19-jdk` 
 
 ## Features
 - **Algorithms**: Solves the Word Ladder game using three different algorithms:

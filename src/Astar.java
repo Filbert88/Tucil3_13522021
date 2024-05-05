@@ -14,12 +14,13 @@ public class Astar {
 
         while (!priorityQueue.isEmpty()) {
             Node current = priorityQueue.poll();
-            visitedNodes++;
-
+            
             if (current.g > costSoFar.get(current.word)) {
                 continue; 
             }
-
+            
+            visitedNodes++;
+            
             if (current.word.equals(end)) {
                 List<String> path = getPath(current);
                 return new SearchResult(path, visitedNodes);
