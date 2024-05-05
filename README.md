@@ -2,6 +2,8 @@
 <h2 align="center">Semester II Tahun 2023/2024</h2>
 <h3 align="center">Penyelesaian Permainan Word Ladder Menggunakan Algoritma UCS, Greedy Best First Search, dan A*</h3>
 
+![GitHub last commit](https://img.shields.io/github/last-commit/Filbert88/Tucil3_13522021)
+
 ## Table of Contents
 * [Overview](#Overview)
 * [Technologies Used](#technologies-used)
@@ -50,7 +52,7 @@ https://github.com/Filbert88/Tucil3_13522021.git
 ```
 ./run
 ```
-- For Linux :
+- For Linux or MacOs :
 ```
 chmod +x run.sh
 ./run.sh
@@ -60,7 +62,7 @@ chmod +x run.sh
 ```
 ./cli
 ```
-- For Linux :
+- For Linux or MacOs :
 ```
 chmod +x cli.sh
 ./cli.sh
