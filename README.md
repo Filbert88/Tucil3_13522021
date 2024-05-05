@@ -18,7 +18,9 @@ The Word Ladder game involves transforming a start word into a target word one l
 
 ## Technologies Used
 - **Java**: All backend logic and algorithms are implemented using Java, ensuring a robust and platform-independent solution.
-- **Prerequisites**: Java 8 or newer must be installed on your machine to compile and run the code.
+- **Prerequisites**: 
+  - **Windows**: Java 8 or newer must be installed on your machine to compile and run the code.
+  - **Linux**: The latest version of Java must be installed on your machine to compile and run the code which already have a class file version 64.0.
 
 ## Features
 - **Algorithms**: Solves the Word Ladder game using three different algorithms:
@@ -44,12 +46,22 @@ To get started with the Word Ladder solver, you can clone the repository and run
 https://github.com/Filbert88/Tucil3_13522021.git
 ``` 
 2. To run the GUI
+- For Windows :
 ```
 ./run
 ```
+- For Linux :
+```
+./run.sh
+```
 3. To run via CLI
+- For Windows :
 ```
 ./cli
+```
+- For Linux :
+```
+./run.sh
 ```
 
 ## How to Use the Program

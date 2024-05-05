@@ -107,7 +107,10 @@ public class GUI extends JFrame {
             JOptionPane.showMessageDialog(this, "Word lengths are not equal.");
             return;
         }
-    
+        
+        Runtime runtime = Runtime.getRuntime();
+        long initialMemory = runtime.totalMemory() - runtime.freeMemory();
+
         long startTime = System.nanoTime();
         SearchResult result = null;
         try {
@@ -132,9 +135,15 @@ public class GUI extends JFrame {
         }
     
         long endTime = System.nanoTime();
+        long finalMemory = runtime.totalMemory() - runtime.freeMemory();
+        long memoryUsed = (finalMemory - initialMemory);
         long executionTime = (endTime - startTime) / 1_000_000;
         timeLabel.setText("Execution Time: " + executionTime + " ms");
         visitedLabel.setText("Visited Nodes: " + (result != null ? result.visitedNodes : 0));
+
+        System.out.println("Start : " + start);
+        System.out.println("End: " + end);
+        System.out.println("Algorithm: " + algorithm + ", Memory used: " + memoryUsed + " bytes");
     
         if (result != null && result.path != null) {
             displayLadder(result.path);
