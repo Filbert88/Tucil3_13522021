@@ -1,0 +1,25 @@
+testcase used for testing
+
+testcase 1
+start word: charge
+end word: comedo
+
+testcase 2
+start word: light
+end word: heavy
+
+testcase 3
+start word: stone
+end word: money
+
+testcase 4
+start word: hello
+end word: check
+
+testcase 5
+start word: hell
+end word: norm
+
+testcase 6
+start word: crown
+end word: jewel
