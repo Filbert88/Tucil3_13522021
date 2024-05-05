@@ -32,7 +32,7 @@ The Word Ladder game involves transforming a start word into a target word one l
     - Selects nodes based on heuristic estimates of their proximity to the goal.
     - Efficient in memory usage but may not always find the optimal solution.
     
-  - **A* (A Star)**:
+  - **A\* (A Star)**:
     - Combines UCS and GBFS by considering both actual cost and heuristic estimates.
     - Efficient and guarantees to find the optimal solution with a good heuristic.
 
@@ -52,6 +52,7 @@ https://github.com/Filbert88/Tucil3_13522021.git
 ```
 - For Linux :
 ```
+chmod +x run.sh
 ./run.sh
 ```
 3. To run via CLI
@@ -61,7 +62,8 @@ https://github.com/Filbert88/Tucil3_13522021.git
 ```
 - For Linux :
 ```
-./run.sh
+chmod +x cli.sh
+./cli.sh
 ```
 
 ## How to Use the Program
