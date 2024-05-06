@@ -47,17 +47,24 @@ To get started with the Word Ladder solver, you can clone the repository and run
 ```bash
 https://github.com/Filbert88/Tucil3_13522021.git
 ``` 
-2. To run the GUI
+2. Enter the directory
+```
+cd Tucil3_13522021
+```
+
+3. To run the GUI
 - For Windows :
 ```
 ./run
 ```
 - For Linux or MacOs :
+
+For safety, make sure the .sh file is in `LF` format
 ```
 chmod +x run.sh
 ./run.sh
 ```
-3. To run via CLI
+4. To run via CLI
 - For Windows :
 ```
 ./cli
